@@ -86,3 +86,39 @@ touch .gitignore
 ```
 - inside the `.gitignore` add `node_modules`
 
+
+### NPM express + ejs + express-ejs-layouts
+- While creating your project folders also install these NPMs locally
+```
+npm i express ejs express-ejs-layouts
+```
+- Create a views folder which will house the Routes
+
+- 
+```javascript
+const express = require("express");
+const app = express();
+// import ejs layouts
+const ejsLayouts = require("express-ejs-layouts");
+
+app.set("view engine", "ejs");
+app.use(ejsLayouts);
+
+// Home route
+// VERB: GET(read) URL: http://localhost:8000
+
+<!-- app.get("/", (req, res) => {
+  res.send("This is the HOME page");  // to test out
+}); -->
+
+app.get("/", (req, res) => {
+  res.render("index.ejs");      // for use with ejs
+});
+
+
+app.listen(8000, () => {
+  console.log("Nodemon out there running through port 8000");
+});
+```
+- to use layouts make sure you have a ```layout.ejs``` file inside the views folder
+- This layout will be used by all pages, and the content will be filled in where the ```<%- body %>``` tag is placed. ```<%- body %>``` is a special tag used by express-ejs-layouts that cannot be renamed.
