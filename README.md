@@ -103,6 +103,7 @@ const ejsLayouts = require("express-ejs-layouts");
 
 app.set("view engine", "ejs");
 app.use(ejsLayouts);
+app.use(express.static('public'))
 
 // Home route
 // VERB: GET(read) URL: http://localhost:8000
@@ -117,8 +118,43 @@ app.get("/", (req, res) => {
 
 
 app.listen(8000, () => {
-  console.log("Nodemon out there running through port 8000");
+  console.log("Nodemon out here running through port 8000");
 });
 ```
+- app is an object and get, listen, and use are methods
 - to use layouts make sure you have a ```layout.ejs``` file inside the views folder
 - This layout will be used by all pages, and the content will be filled in where the ```<%- body %>``` tag is placed. ```<%- body %>``` is a special tag used by express-ejs-layouts that cannot be renamed.
+- If you want to use static images, js, css use:
+```javascript
+app.use(express.static('public'))
+```
+
+### NPM axios + dotenv
+- install axios and dot env ```npm i axios dotenv```
+- add ```.env``` into your ```.gitignore```
+- create ```.env``` file to your root (this is where your api key will live)
+```
+MY_SECRET='I ate candy for breakfast'
+FRUIT='mango'
+OMDB_API_KEY='this will be your api'
+```
+- to use axios and dotenv
+```javascript
+require('dotenv').config()
+const axios = require('axios')
+
+console.log(process.env.OMDB_API_KEY)  // Should show your api key that's inside .env folder
+```
+- an example of how to fetch omdb while api key is hidden
+```javascript
+require('dotenv').config()
+console.log(process.env.OMDB_API_KEY)
+const axios = require('axios')
+
+const url = `http://www.omdbapi.com/?t=the+good+the+bad+and+the+ugly&apikey=${process.env.OMDB_API_KEY}`
+
+axios.get(url)
+  .then(response => {
+    console.log(response.data)
+  })
+```
